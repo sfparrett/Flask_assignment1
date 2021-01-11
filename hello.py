@@ -39,7 +39,7 @@ users = {
    ]
 }
 
-@app.route('/users', methods=['GET', 'POST'])
+@app.route('/users', methods=['GET', 'POST', 'DELETE'])
 def get_users():
    if request.method == 'GET':
       search_username = request.args.get('name')
@@ -50,6 +50,7 @@ def get_users():
                subdict['users_list'].append(user)
          return subdict
       return users
+
    elif request.method == 'POST':
       userToAdd = request.get_json()
       users['users_list'].append(userToAdd)
@@ -57,4 +58,15 @@ def get_users():
       #resp.status_code = 200 #optionally, you can always set a response code. 
       # 200 is the default code for a normal response
       return resp
+
+   elif request.method == 'DELETE': 
+      userToDelete = request.get_json() #expecting this to be a full JSON of the user 
+      userlist = users.get('users_list')  
+      for user in userlist: 
+         if user ==  userToDelete: 
+            userlist.remove(user)
+      return users
+
+
+
 
