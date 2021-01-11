@@ -35,21 +35,29 @@ users = {
          'id' : 'zap555', 
          'name': 'Dennis',
          'job': 'Bartender',
+      },
+      {
+         'id' : 'zap888',
+         'name': 'Dennis',
+         'job': 'Bartender',
       }
    ]
 }
 
 @app.route('/users', methods=['GET', 'POST', 'DELETE'])
+
 def get_users():
    if request.method == 'GET':
       search_username = request.args.get('name')
-      if search_username :
+      search_job = request.args.get('job')
+
+      if search_username and search_job :
          subdict = {'users_list' : []}
          for user in users['users_list']:
-            if user['name'] == search_username:
+            if ((user['name'] == search_username) and (user['job'] == search_job)): 
                subdict['users_list'].append(user)
-         return subdict
-      return users
+         return subdict 
+      return users  
 
    elif request.method == 'POST':
       userToAdd = request.get_json()
