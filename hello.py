@@ -39,4 +39,3 @@ users = {
 @app.route('/users')
 def get_users():
    return users
-
