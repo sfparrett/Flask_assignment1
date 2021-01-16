@@ -2,6 +2,8 @@ from flask import Flask
 from flask import request
 from flask import jsonify
 from flask_cors import CORS 
+import string
+import random
 
 app = Flask(__name__)
 CORS(app) 
@@ -37,13 +39,12 @@ users = {
    ]
 }
 
+
 @app.route('/users', methods= ['GET', 'POST'])
 def get_users():
    if request.method == 'GET':
       search_username = request.args.get('name')
-      search_job = request.args.get('job')
-      print("search name", search_username)
-      print("search job", search_job)      
+      search_job = request.args.get('job')    
       if search_username and search_job:
          return find(search_username, search_job)
       elif search_username: 
@@ -52,6 +53,7 @@ def get_users():
 
    elif request.method == 'POST':
       userToAdd = request.get_json()
+      userToAdd["id"] = id_generator()
       users['users_list'].append(userToAdd)
       resp = jsonify(userToAdd), 201
       return resp 
@@ -82,4 +84,12 @@ def find(name=None, job=None):
          subdict['users_list'].append(user)
    return subdict 
 
+def id_generator():
+    lower_upper_alphabet = string.ascii_letters
+    new_id = ''
+    for i in range(3):
+        new_id += str(random.choice(lower_upper_alphabet)).lower()
+    for i in range(3):
+        new_id += str(random.randint(0, 9))
+    return new_id
 
