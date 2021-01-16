@@ -39,7 +39,6 @@ users = {
    ]
 }
 
-
 @app.route('/users', methods= ['GET', 'POST'])
 def get_users():
    if request.method == 'GET':
@@ -61,18 +60,23 @@ def get_users():
 
 @app.route('/users/<id>', methods= ['GET', 'DELETE'])
 def get_user(id):
+   print("id",id)
    if id :
       for user in users['users_list']:
          if user['id'] == id:
             if request.method == 'GET': 
                return user
-         elif request.method == 'DELETE': 
-            for user in users['users_list']:
-               if user['id'] == id:
-                  users['users_list'].remove(user)
-                  id_string = "user id {} deleted".format(id)
-                  resp = jsonify({"success":id_string}), 204
-                  return resp 
+            elif request.method == 'DELETE': 
+               print('DELETE')
+               for user in users['users_list']:
+                  print("user",user )
+                  print("user[id]",user['id'] )
+                  if user['id'] == id:
+                     print("users",users )
+                     users['users_list'].remove(user)
+                     id_string = "user id {} deleted".format(id)
+                     resp = jsonify({"success":id_string}), 204
+                     return resp 
 
       resp = jsonify({"Msg": "User not found"}), 404
       return resp 
