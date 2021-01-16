@@ -56,6 +56,7 @@ def get_users():
       userToAdd["id"] = id_generator()
       users['users_list'].append(userToAdd)
       resp = jsonify(userToAdd), 201
+      print(userToAdd)
       return resp 
 
 @app.route('/users/<id>', methods= ['GET', 'DELETE'])
